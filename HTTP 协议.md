@@ -2,6 +2,8 @@
 
 主要内容来源于：《HTTP抓包实战》
 
+链接：https://pan.baidu.com/s/15s2Pr7JEy0wJDZNNGbiEEA  提取码：9vwo 
+
 ## 什么是HTTP协议
 
 协议是指计算机通信网路中两台计算机之间进行通信所必须共同遵守的规定或规则。
