@@ -1,8 +1,22 @@
-# Servlet
+# Java Web
+
+Java Web三大组件：Servlet程序，Filter过滤器，Listener监听器。
+
+
+
+## Servlet
 
 Servlet是JavaEE规范之一。
 
-Servlet是JavaWeb三大组件之一。三大组件是：Servlet程序，Filter过滤器，Listener监听器。
+Servlet 3.1 规范地址：https://jcp.org/en/jsr/detail?id=340
+
+下载地址：https://download.oracle.com/otndocs/jcp/servlet-3_1-fr-eval-spec/index.html
+
+Servlet4.0  规范地址：https://jcp.org/en/jsr/detail?id=369
+
+下载地址：https://download.oracle.com/otndocs/jcp/servlet-4-final-eval-spec/index.html
+
+
 
 Servlet 用来处理请求返回响应。
 
@@ -18,6 +32,32 @@ Servlet 用来处理请求返回响应。
   <scope>provided</scope>
 </dependency>
 ```
+
+
+
+## Filter
+
+
+
+## Listener
+
+
+
+## Session
+
+
+
+## Cookie
+
+
+
+## Application
+
+
+
+
+
+
 
 
 
@@ -185,4 +225,90 @@ System.out.println(getServletContext().getRealPath("/")); //   D:\imooc\evn\apac
  getServletContext().getAttribute("");
 ```
 
+
+
+## Cookie
+
+**Cookie**是由服务器端生成，发送给User-Agent（一般是浏览器），浏览器会将Cookie的key/value保存到某个目录下的文本文件内，下次请求同一网站时就发送该Cookie给服务器（前提是浏览器设置为启用cookie）。Cookie名称和值可以由服务器端开发自己定义，对于JSP而言也可以直接写入JSESSIONID用于标记一个会话(session)，这样服务器可以知道该用户是否合法用户以及是否需要重新登录等，服务器可以设置或读取Cookies中包含信息，借此维护用户跟服务器会话中的状态。
+
+
+
+**Cookie**由服务器写给浏览器的。由浏览器来保存。客户端保存的Cookie信息，可以再次带给服务器。
+
+
+
+**Cookie是客户端技术**。
+
+
+
+javax.servlet.http.Cookie
+
+
+
+
+
+服务端添加cookie响应给客户端，cookie在此处产生
+
+```java
+Cookie cookie = new Cookie("name", "wangcf"); 
+
+response.addCookie(cookie);
+```
+
+在客户端获取到cookie以后，再次访问服务器，浏览器会自动在请求中添加cookie。
+
+
+
+服务端获取客户端请求中的cookie
+
+```java
+Cookie[] cookies = request.getCookies(); 
+if (cookies != null) {    
+    for (Cookie coo: cookies) {        
+        String name = coo.getName();        
+        String value = coo.getValue();        
+        System.out.println("name=" + name + ";value=" + value);    
+    } 
+}
+```
+
+
+
+设置cookie的有效期
+
+-1（默认值），或其它负数，关闭浏览器后失效；
+
+0   response返回到浏览器后即被删除，下次request将不会传输该cookie；
+
+其它正数，存在多少秒 ,超过该秒后的request将无该cookie
+
+```java
+//cookie的设置必须在addCookie之前才有效
+cookie.setMaxAge(60 * 60 * 24);
+response.addCookie(cookie);
+```
+
+清除浏览记录其实就是清除Cookie， 删除cookie是没有相应的类似delete方法的可以设置maxAge 为0 。
+
+```java
+Cookie cookie = new Cookie("history","");
+cookie.setMaxAge(0); //设置立即删除
+cookie.setPath("/CookieDemo02");
+response.addCookie(cookie);
+```
+
+
+
+设置cookie在浏览器的存放地址；该地址下有cookie，则request将带上该cookie
+
+```java
+//只有访问pattern域名的request才回带cookie
+cookie.setDomain(pattern);
+//是有访问以上域名的uri的路径才会带cookie
+cookie.setPath(uri);
+```
+
+
+
+如何区分Cookie：通过名称不行,应通过domain+path+name来区分的。
 
